@@ -6,6 +6,7 @@ fun main() {
         return (min(val1, min(val2, val3)))
     }
     fun msPair(first: Char, second: Char): Boolean {
+        println("msPair called with $first, $second")
         if (first == 'M' && second == 'S') return true
         else if (first == 'S' && second == 'M') return true
         return false
@@ -55,12 +56,19 @@ fun main() {
         }
         return count
     }
-    val input = readInput("Day04test5")
+    val input = readInput("Day04")
     println("input.size: " + input.size + " input[0].length: " + input[0].length)
     //println(input[0])
-    for (j in 0..(input.size - 1)) { print(input.get(1)[j]) }
+    for (j in 0..(input[0].length - 2)) { print(input.get(1)[j]) }
+    println("brk")
     var XmasMatches = 0
-    for (i in 1..(input.size - 1)) {
+    for (i in 1..(input.size - 2)) {
+        for (j in 1..(input[0].length - 2)) {
+            print(input[i][j])
+        }
+        println()
+    }
+    for (i in 1..(input.size - 2)) {
         for (j in 1..(input[0].length - 2)) {
             if (input[i][j] == 'A') {
                 println("A at [$i][$j]")
