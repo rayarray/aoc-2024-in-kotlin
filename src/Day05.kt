@@ -16,7 +16,7 @@ fun main() {
         if (secondFound && firstFound && firstBefore) return true
         return false
     }
-    val input = readInput("Day05")
+    val input = readInput("Day05example")
     var orderingRules = mutableListOf<Pair<Int, Int>>()
     var printOuts = mutableListOf<List<Int>>()
     var linebreak = false
@@ -36,8 +36,10 @@ fun main() {
         if (printList.size % 2 != 1) println("FAIL!")
         var ruleChecksPassed = true
         for (rule in orderingRules) {
-            if (!checkRule(rule, printList))
+            if (!checkRule(rule, printList)) {
+                println("Rule ${rule.first}|${rule.second} failed for $printList")
                 ruleChecksPassed = false
+            }
         }
         if (ruleChecksPassed) {
             println("Passed! Pages to print: ${printList.size / 2} Middle page: ${printList[printList.size / 2]}")

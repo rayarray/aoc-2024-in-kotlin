@@ -16,7 +16,22 @@ fun main() {
         if (secondFound && firstFound && firstBefore) return true
         return false
     }
-    val input = readInput("Day05example")
+    fun checkAllRules(rules : List<Pair<Int, Int>>, list: List<Int>) : Boolean {
+        for (rule in rules) {
+            if (!checkRule(rule, list))
+                return false
+        }
+        return true
+    }
+    fun getFailingRule(rules: List<Pair<Int, Int>>, list: List<Int>) : Pair<Int, Int> {
+        for (rule in rules) {
+            if (!checkRule(rule, list))
+                return rule
+        }
+        error("getFailingRule failed to get failing rule")
+        return Pair(-1, -1)
+    }
+    val input = readInput("Day05")
     var orderingRules = mutableListOf<Pair<Int, Int>>()
     var printOuts = mutableListOf<List<Int>>()
     var linebreak = false
@@ -42,11 +57,31 @@ fun main() {
             }
         }
         if (ruleChecksPassed) {
-            println("Passed! Pages to print: ${printList.size / 2} Middle page: ${printList[printList.size / 2]}")
+            println("Passed! Middle page: ${printList[printList.size / 2]}")
             middlePageSum += printList[printList.size / 2]
         }
     }
     println("Final sum of middle pages: $middlePageSum")
+    var correctedMiddlePageSum = 0
+    var modifiedPrints = mutableListOf<List<Int>>()
+    for (printList in printOuts) {
+        println ("car: ${checkAllRules(orderingRules, printList)}")
+        var modPage = printList.toMutableList()
+        if (!checkAllRules(orderingRules, modPage)) {
+            while (!checkAllRules(orderingRules, modPage)) {
+                println(getFailingRule(orderingRules, modPage))
+                val (first, second) = getFailingRule(orderingRules, modPage)
+                for (i in 0..(modPage.size - 1)) {
+                    if (second == modPage[i]) { modPage[i] = first }
+                    else if (first == modPage[i]) { modPage[i] = second }
+                }
+            }
+            modifiedPrints.add(modPage)
+            correctedMiddlePageSum += modPage[modPage.size / 2]
+        }
+    }
+    println(modifiedPrints)
+    println("Final sum of corrected middle pages: $correctedMiddlePageSum")
 //    println(orderingRules)
 //    println(printOuts)
 }
